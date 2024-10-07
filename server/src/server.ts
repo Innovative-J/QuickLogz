@@ -2,10 +2,9 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { ApolloServerPluginDrainHttpServer } from "@apollo/server/plugin/drainHttpServer";
 import { makeExecutableSchema } from "@graphql-tools/schema";
-import { PubSub } from "graphql-subscriptions";
 import { createServer } from "http";
 import express from "express";
-import { SubscriptionServer } from "subscriptions-transport-ws";
+import { useServer } from 'graphql-ws/lib/use/ws';
 import { execute, subscribe } from "graphql";
 import { WebSocketServer } from "ws";
 import bodyParser from "body-parser";
@@ -93,16 +92,12 @@ const wsServer = new WebSocketServer({
     path: '/graphql',
 });
 
-//Createed the subscription server
-const subscriptionServer = SubscriptionServer.create(
-    {
-        schema,
-        execute,
-        subscribe,
-        onConnect: () => console.log('Connected to websocket'),
-    },
-    wsServer
-);
+//Created the subscription server
+ const wsServer = new WebSocketServer({
+    server: httpServer,
+    path: "/graphql",
+  });
+
 
 // Created ApolloServer instance with schema and plugins
 const server = new ApolloServer({
