@@ -1,5 +1,6 @@
 import { ApolloClient, InMemoryCache, ApolloProvider, split, HttpLink } from '@apollo/client';
 import { WebSocketLink } from '@apollo/client/link/ws';
+import getMainDefinition to identify operation types
 import { getMainDefinition } from '@apollo/client/utilities';
 
 // HTTP link to connect to the GraphQL server via HTTP
