@@ -20,13 +20,13 @@ const typeDefs = `
 
     type Query {
         messages: [Message!]
-        message(id: ID!): MEssage
+        message(id: ID!): Message
     }
 
     type Mutation {
         addMessage( content: String!): Message
         updateMessage(id: ID!, content: String!): Message
-        deleteMEssage(id: ID!): Message
+        deleteMessage(id: ID!): Message
     }
 
     type Subscription {
@@ -40,7 +40,6 @@ const typeDefs = `
 const messages: Array<{ id: string, content: string}> =[];
 const pubsub = new PubSub();
 
-//Define resolvers for handling GraphQL operations
 const resolvers ={
     Query: {
         messages: () => messages,
@@ -81,19 +80,17 @@ const resolvers ={
     },
 };
 
-//Create the executable schema
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-const app = express(); // Created express application
-const httpServer = createServer(app); // Created an HTTP server
+const app = express(); 
+const httpServer = createServer(app); 
 
-//Set up WebSocket server for subscriptions
 const wsServer = new WebSocketServer({
     server: httpServer,
     path: '/graphql',
 });
 
-//Created the subscription server
+//subscription server
  const subscriptionServer = SubscriptionServer.create(
     {
         schema,
@@ -105,7 +102,7 @@ const wsServer = new WebSocketServer({
  );
 
 
-// Created ApolloServer instance with schema and plugins
+//  ApolloServer instance
 const server = new ApolloServer({
     schema,
     plugins: [
@@ -122,12 +119,12 @@ const server = new ApolloServer({
     ],
 });
 
-//Start the server and set up middleware
+//Starting the server and middleware set up 
 server.start().then(() => {
-    app.use(cors()); //Enable CORS
-    app.use(bodyParser.json()); //Parse JSON request bodies
-    app.use('/graphql', expressMiddleware(server)); //Add Apollo middleware to Express
-    httpServer.listen(400, () => {
-        console.log('Server is running on http://localhost: 4000/graphql'); //start the server
+    app.use(cors()); // 
+    app.use(bodyParser.json()); 
+    app.use('/graphql', expressMiddleware(server)); 
+    httpServer.listen(4000, () => {
+        console.log('Server is running on http://localhost:4000/graphql');
     });
 });

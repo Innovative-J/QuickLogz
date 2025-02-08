@@ -1,4 +1,3 @@
-// src/Messages.tsx
 import React, { useState } from 'react';
 import { gql, useQuery, useMutation, useSubscription } from '@apollo/client';
 import styles from './Messages.module.scss';
