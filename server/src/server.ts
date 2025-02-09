@@ -121,7 +121,7 @@ const server = new ApolloServer({
 
 //Starting the server and middleware set up 
 server.start().then(() => {
-    app.use(cors()); // 
+    app.use(cors()); 
     app.use(bodyParser.json()); 
     app.use('/graphql', expressMiddleware(server)); 
     httpServer.listen(4000, () => {
