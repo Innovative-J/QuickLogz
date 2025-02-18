@@ -1,5 +1,6 @@
 import React from 'react';
-import { ApolloProvider, client } from './apolloClient';
+import { client } from './apolloClient';
+import { ApolloProvider } from '@apollo/client';
 import Messages from './Messages';
 
 const App: React.FC = () => (
